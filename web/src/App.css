@@ -1,0 +1,110 @@
+/* Rich text editor */
+.prose-editor .ProseMirror {
+  outline: none;
+  min-height: 100px;
+  text-align: justify;
+}
+
+/* Heading sizes (Tailwind preflight resets these) */
+.prose-editor .ProseMirror h1,
+.document-rich-content h1 {
+  font-size: 12pt;
+  font-weight: bold;
+  text-align: center;
+  margin: 2mm 0;
+}
+.prose-editor .ProseMirror h2,
+.document-rich-content h2 {
+  font-size: 12pt;
+  font-weight: bold;
+  margin: 2mm 0;
+}
+
+/* Default justified alignment and single ("simple") line spacing for rich text display */
+.document-rich-content p,
+.document-rich-content li {
+  text-align: justify;
+  line-height: 1.2em;
+  margin: 0;
+}
+
+/* Empty paragraphs collapse to zero height without this */
+.document-rich-content p:empty {
+  min-height: 1.2em;
+}
+.prose-editor .ProseMirror p:empty {
+  min-height: 1.6em;
+}
+
+/* Inline formatting (Tailwind preflight resets strong/em/u to inherit) */
+.prose-editor .ProseMirror strong,
+.document-rich-content strong {
+  font-weight: bold;
+}
+.prose-editor .ProseMirror em,
+.document-rich-content em {
+  font-style: italic;
+}
+.prose-editor .ProseMirror u,
+.document-rich-content u {
+  text-decoration: underline;
+}
+
+/* List styles (Tailwind preflight resets list-style and padding on ul/ol) */
+.prose-editor .ProseMirror ul,
+.document-rich-content ul {
+  list-style-type: disc;
+  padding-left: 1.5em;
+}
+.prose-editor .ProseMirror ol,
+.document-rich-content ol {
+  list-style-type: decimal;
+  padding-left: 1.5em;
+}
+
+/* Inter-item spacing — only between siblings, not inside item content */
+.document-rich-content ul > li + li {
+  margin: 0.25em 0;
+}
+.document-rich-content ol > li {
+  margin: 0.5em 0;
+}
+
+/* Mirror bold from the item's first text run to the list number marker */
+.document-rich-content ol > li:has(> p > strong:first-child)::marker {
+  font-weight: bold;
+}
+
+.document-print-view {
+  position: absolute;
+  left: -9999px;
+  visibility: hidden;
+}
+
+@media print {
+  body {
+    margin: 0;
+    padding: 0;
+    background: white;
+    width: 210mm;
+    height: 297mm;
+  }
+
+  .print-page {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    width: 190mm;
+    margin: 0 auto;
+    padding: 10mm 0;
+  }
+
+  .print-tag {
+    width: 90mm;
+    height: 140mm;
+    page-break-inside: avoid;
+    margin: 5mm;
+    box-sizing: border-box;
+  }
+}

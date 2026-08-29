@@ -1,0 +1,76 @@
+{
+    "name": "@novadmin/lib",
+    "version": "1.0.0",
+    "private": true,
+    "type": "module",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "default": "./dist/index.js"
+        },
+        "./types": {
+            "types": "./dist/types/index.d.ts",
+            "default": "./dist/types/index.js"
+        },
+        "./quote": {
+            "types": "./dist/quote/index.d.ts",
+            "default": "./dist/quote/index.js"
+        },
+        "./quote/elements": {
+            "types": "./dist/quote/elements.d.ts",
+            "default": "./dist/quote/elements.js"
+        },
+        "./quote/groupedElements": {
+            "types": "./dist/quote/groupedElements.d.ts",
+            "default": "./dist/quote/groupedElements.js"
+        },
+        "./quote/import": {
+            "types": "./dist/quote/import.d.ts",
+            "default": "./dist/quote/import.js"
+        },
+        "./quote/materials": {
+            "types": "./dist/quote/materials.d.ts",
+            "default": "./dist/quote/materials.js"
+        },
+        "./quote/scope": {
+            "types": "./dist/quote/scope.d.ts",
+            "default": "./dist/quote/scope.js"
+        },
+        "./quote/costSummary": {
+            "types": "./dist/quote/costSummary.d.ts",
+            "default": "./dist/quote/costSummary.js"
+        },
+        "./quote/overrides": {
+            "types": "./dist/quote/overrides.d.ts",
+            "default": "./dist/quote/overrides.js"
+        },
+        "./utils/unitConversion": {
+            "types": "./dist/utils/unitConversion.d.ts",
+            "default": "./dist/utils/unitConversion.js"
+        }
+    },
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "rm -rf dist && tsc && tsc-alias",
+        "local": "tsc --watch",
+        "test": "vitest ./src"
+    },
+    "devDependencies": {
+        "@types/lodash": "^4.17.23",
+        "@types/node": "^25.9.2",
+        "ts-node": "^10.9.2",
+        "tsc-alias": "^1.8.16",
+        "tsx": "^4.22.4",
+        "typescript": "^5.9.3",
+        "vite-tsconfig-paths": "^6.1.1",
+        "vitest": "^4.0.18",
+        "xlsx": "^0.18.5"
+    },
+    "dependencies": {
+        "lodash": "^4.17.23"
+    }
+}

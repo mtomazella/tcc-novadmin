@@ -1,0 +1,7 @@
+node_modules/*
+yarn-error.log
+.env*
+database/users*.json
+database/users*.sql
+/logs
+printer_services/.printer_api_key

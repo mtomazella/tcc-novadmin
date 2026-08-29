@@ -1,0 +1,12 @@
+[Unit]
+Description=Novadmin
+Requires=docker.service
+After=docker.service
+
+[Service]
+ExecStart=/home/gamaserver/nova/prod/linux-service.sh
+Type=oneshot
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target

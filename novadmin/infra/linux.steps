@@ -1,0 +1,3 @@
+1. Atualizar caminhos em linux-service.sh e linux.linux-service
+2. Copiar linux.service para /etc/systemd/system/ 
+3. Copiar o script para a pasta do ambiente

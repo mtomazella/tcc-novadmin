@@ -1,0 +1,4 @@
+export const FUNDO_ADICIONAL_PRODUCT_ID = 10
+export const TIRA_ADICIONAL_PRODUCT_ID = 18
+export const GARFO_PRODUCT_ID = 32
+export const GASTALHO_PRODUCT_ID = 36

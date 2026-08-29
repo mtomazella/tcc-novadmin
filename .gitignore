@@ -1,0 +1,13 @@
+backup.sql
+docs/
+.superpowers/
+CLAUDE.md
+.claude/
+lib/src/tools
+docker-compose.*
+dockerfile
+readme.md
+.vscode/
+lib/dist/
+novadmin/database/
+!novadmin/database/schema.sql
