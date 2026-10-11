@@ -1,6 +1,6 @@
 backup.sql
-docs/
 .superpowers/
+superpowers/
 CLAUDE.md
 .claude/
 lib/src/tools
@@ -11,3 +11,13 @@ readme.md
 lib/dist/
 novadmin/database/
 !novadmin/database/schema.sql
+
+docs/*
+!docs/
+lib/docs/
+!docs/media/
+!docs/media/**
+!docs/*.tex
+!docs/*.bib
+!docs/*.pdf
+!docs/*.ist
