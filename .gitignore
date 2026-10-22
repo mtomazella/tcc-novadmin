@@ -21,3 +21,4 @@ lib/docs/
 !docs/*.bib
 !docs/*.pdf
 !docs/*.ist
+!docs/.latexmkrc
