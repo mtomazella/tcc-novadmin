@@ -31,8 +31,7 @@
 % Pacotes de citações
 % ---
 \usepackage[brazilian,hyperpageref]{backref}	 % Paginas com as citações na bibl
-\usepackage[alf]{abntex2cite}	% Citações padrão ABNT
-\setboolean{ABCIauto-abntoptions}{false}
+\usepackage[alf,abnt-emphasize=bf]{abntex2cite}	% Citações padrão ABNT
 \let\tt\ttfamily
 
 % --- 
@@ -129,10 +128,14 @@ Orientador: Prof. Dr. Leonardo Grando.}
 \renewcommand{\ABNTEXchapterfont}{\rmfamily}
 \renewcommand{\ABNTEXpartfont}{\rmfamily}
 \renewcommand{\ABNTEXsectionfont}{\rmfamily}
-\renewcommand{\ABNTEXsubsectionfont}{\rmfamily}
-\renewcommand{\ABNTEXsubsubsectionfont}{\rmfamily}
+\renewcommand{\ABNTEXsubsectionfont}{\rmfamily\bfseries}
+\renewcommand{\ABNTEXsubsubsectionfont}{\rmfamily\bfseries}
 \renewcommand{\ABNTEXsubsubsubsectionfont}{\rmfamily}
 \renewcommand{\chaptitlefont}{\rmfamily\bfseries\normalsize}
+\renewcommand{\cftsubsectionfont}{\rmfamily\bfseries}
+\renewcommand{\cftsubsectionpagefont}{\rmfamily\bfseries}
+\renewcommand{\cftsubsubsectionfont}{\rmfamily\bfseries}
+\renewcommand{\cftsubsubsectionpagefont}{\rmfamily\bfseries}
 \makeatletter
 \renewcommand{\contentsname}{SUMÁRIO}
 \renewcommand{\listadesiglasname}{\textbf{LISTA DE ABREVIATURAS E SIGLAS}}
@@ -171,7 +174,7 @@ Orientador: Prof. Dr. Leonardo Grando.}
 % Início do documento
 % ----
 \begin{document}
-\renewcommand{\bibname}{REFERÊNCIAS}
+\renewcommand{\bibname}{\textbf{REFERÊNCIAS}}
 \renewcommand{\glossaryname}{GLOSSÁRIO}
 
 % Retira espaço extra obsoleto entre as frases.
@@ -266,9 +269,9 @@ Orientador: Prof. Dr. Leonardo Grando.}
 	\rule{12cm}{0.4pt}\par
 	Prof. Dr. Leonardo Grando, UNISAL\\
 
-	\vspace{1.5cm}
-	\rule{12cm}{0.4pt}\par
-	Prof. Me. Loren, Ipsum\\
+	% \vspace{1.5cm}
+	% \rule{12cm}{0.4pt}\par
+	% Prof. Me. Loren, Ipsum\\
 
 	\vfill
 
@@ -331,20 +334,20 @@ Orientador: Prof. Dr. Leonardo Grando.}
 % ---
 % inserir lista de abreviaturas e siglas
 % ---
-\begin{siglas}
-	\item[API] Interface de Programação de Aplicações
-	\item[CI/CD] Integração Contínua e Entrega Contínua
-	\item[DOCX] Formato de arquivo do Microsoft Word baseado em XML
-	\item[ERP] Planejamento de Recursos Empresariais (Enterprise Resource Planning)
-	\item[HTML] Linguagem de Marcação de Hipertexto (HyperText Markup Language)
-	\item[MER] Modelo Entidade-Relacionamento
-	\item[PDF] Formato de Documento Portátil (Portable Document Format)
-	\item[REST] Transferência de Estado Representacional (Representational State
-	Transfer)
-	\item[SQL] Linguagem de Consulta Estruturada (Structured Query Language)
-	\item[TCC] Trabalho de Conclusão de Curso
-	\item[UNISAL] Centro Universitário Salesiano de São Paulo
-\end{siglas}
+% \begin{siglas}
+% 	\item[API] Interface de Programação de Aplicações
+% 	\item[CI/CD] Integração Contínua e Entrega Contínua
+% 	\item[DOCX] Formato de arquivo do Microsoft Word baseado em XML
+% 	\item[ERP] Planejamento de Recursos Empresariais (Enterprise Resource Planning)
+% 	\item[HTML] Linguagem de Marcação de Hipertexto (HyperText Markup Language)
+% 	\item[MER] Modelo Entidade-Relacionamento
+% 	\item[PDF] Formato de Documento Portátil (Portable Document Format)
+% 	\item[REST] Transferência de Estado Representacional (Representational State
+% 	Transfer)
+% 	\item[SQL] Linguagem de Consulta Estruturada (Structured Query Language)
+% 	\item[TCC] Trabalho de Conclusão de Curso
+% 	\item[UNISAL] Centro Universitário Salesiano de São Paulo
+% \end{siglas}
 % ---
 
 % ---
@@ -426,119 +429,102 @@ aumentar a eficiência do sistema, e permitir que múltiplos usuários editem
 partes de um registro simultaneamente.
 
 \section{DESENVOLVIMENTO}
+Essa seção descreve a metodologia adotada para a implementação do projeto, o
+fluxo de trabalho do usuário quando visto isolado da tecnologia e detalhes
+sobre as decisões técnicas arquiteturais e de infraestrutura que foram tomadas
+para atender aos requisitos do sistema.
+
 \subsection{Metodologia}
 
-O desenvolvimento do módulo seguiu uma abordagem iterativa e incremental, com
-ênfase na validação contínua junto aos usuários finais e na entrega progressiva
-de funcionalidades.
+O desenvolvimento do módulo foi baseado em \textit{frameworks} ágeis, seguindo
+uma abordagem iterativa e incremental, com ênfase na validação contínua junto
+aos usuários finais e na entrega progressiva de funcionalidades.
 
-Os requisitos funcionais foram levantados por meio de entrevistas e sessões de
-trabalho com a equipe operacional da empresa, garantindo que as necessidades
-reais do domínio fossem compreendidas e incorporadas no \textit{design}.
-Durante as fases de implementação, testes unitários foram aplicados
-sistematicamente para validar a lógica de negócio, especialmente nas operações
-críticas de cálculo dos custos, utilizando dados gerados pelas planilhas
-substituídas pelo sistema como garantia de que os resultados continuariam
-condizentes com o processo.
+Os requisitos funcionais foram levantados por meio de sessões de trabalho com a
+equipe operacional da empresa, garantindo que as necessidades reais do domínio
+fossem compreendidas e incorporadas no \textit{design}. Durante as fases de
+implementação, testes unitários foram aplicados sistematicamente para validar a
+lógica de negócio, especialmente nas operações críticas de cálculo dos custos,
+utilizando dados gerados pelas planilhas substituídas pelo sistema como
+garantia de que os resultados continuariam condizentes com o processo.
 
-Aspectos como a alta flexibilidade requerida pelo domínio (que demanda suporte
-a múltiplas exceções de regras) e a necessidade de compreender o contexto
-específico do cliente foram gerenciados por meio de ciclos de avaliação
-contínua, permitindo refinar a solução conforme o aprendizado progrediu.
+Aspectos como a alta flexibilidade requerida pelo domínio do sistema (que
+demanda suporte a múltiplas exceções de regras) e a necessidade de compreender
+o contexto específico do cliente foram gerenciados por meio de ciclos de
+avaliação contínua, permitindo refinar a solução conforme o aprendizado
+progrediu.
 
-O desenvolvimento foi organizado em etapas complementares. A fase inicial de
-\textit{design} teve duração de um mês, seguida por cinco meses de
-desenvolvimento do \textit{backend} e quatro meses de desenvolvimento do
-\textit{frontend}. A documentação foi produzida em paralelo às etapas de
-desenvolvimento, durante três meses. No mês final, foram realizados
-simultaneamente os testes e correções e o polimento do artigo, conforme
-apresentado na \autoref{fig:cronograma}.
+A \autoref{fig:cronograma} apresenta o cronograma do projeto, que foi
+organizado em etapas complementares. A fase inicial de \textit{design} teve
+duração de um mês, seguida por cinco meses de desenvolvimento do
+\textit{backend} e quatro meses de desenvolvimento do \textit{frontend}. O
+trabalho escrito foi produzido em paralelo às etapas de desenvolvimento,
+durante três meses. No dois meses finais, foram realizados simultaneamente os
+testes e correções e o polimento do documento.
 
 \begin{figure}[H]
 	\caption{\label{fig:cronograma}Cronograma de desenvolvimento do projeto}
 	\centering
-	\includegraphics[width=\textwidth]{NOVADMIN - Confiabilidade.png}
+	\includegraphics[width=\textwidth]{gantt.jpg}
 	\legend{Fonte: Elaborado pelos autores, 2026.}
 \end{figure}
 
-\subsection{Fluxo de Trabalho}
+\subsection{Fluxo de Trabalho do Usuário}\label{sec:fluxo}
 
-O fluxo se inicia com a inserção de entidades que compõem o Orçamento
-(\autoref{fig:fluxo_1}): Cliente, Obra, Produto, Fornecedor, Material, Custos
-Fixos e Opções de Precificação. Todas são entidades simples, sem
-relacionamentos em sua composição, exceto por Material, que deve ser associado
-a um Fornecedor.
+Esta seção descreve o fluxo de trabalho do módulo de forma abstrata,
+apresentando o caminho percorrido pelo usuário para elaborar um orçamento de
+maneira isolada, ou seja, sem considerar detalhes de implementação, tecnologias
+empregadas ou a aparência das telas. Esses aspectos são tratados nas seções
+seguintes.
+
+A \autoref{fig:fluxo} demonstra o fluxo completo, desde a inserção das
+entidades que compõem o Orçamento até a exportação do documento da proposta.
 
 \begin{figure}[H]
-	\caption{\label{fig:fluxo_1}Diagrama de fluxo -- Criação de entidades iniciais}
-	\begin{center}
-		\includegraphics[scale=0.4]{fluxo_1.png}
-	\end{center}
+	\caption{\label{fig:fluxo}Diagrama de fluxo de trabalho do módulo de orçamento}
+	\centering
+	\includegraphics[width=\textwidth,height=0.90\textheight,keepaspectratio]{fluxo-novo.jpg}
 	\legend{Fonte: Elaborado pelos autores, 2026.}
 \end{figure}
+
+O fluxo se inicia com a inserção das entidades que compõem o Orçamento:
+Cliente, Obra, Produto, Fornecedor, Material, Custos Fixos e Opções de
+Precificação. Todas são entidades simples, sem relacionamentos em sua
+composição, exceto por Material, que deve ser associado a um Fornecedor e Obra
+que deve ser associada a um Cliente.
 
 Em seguida, o Orçamento é criado, sendo associado a um Cliente e a uma Obra,
-podendo também ser uma nova versão de um Orçamento anterior
-(\autoref{fig:fluxo_2}). Uma nova versão mantém relação com o Orçamento de
-origem e pode ser de dois tipos: uma revisão, caso o Orçamento ainda esteja
-aberto, ou um aditivo, caso já tenha sido concluído.
+podendo também ser uma nova versão de um Orçamento anterior. Uma nova versão
+mantém relação com o Orçamento de origem e pode ser de dois tipos: uma revisão,
+caso o Orçamento ainda esteja aberto, ou um aditivo, caso já tenha sido
+concluído.
 
-\begin{figure}[H]
-	\caption{\label{fig:fluxo_2}Diagrama de fluxo -- Criação do Orçamento}
-	\begin{center}
-		\includegraphics[scale=0.55]{fluxo_2.png}
-	\end{center}
-	\legend{Fonte: Elaborado pelos autores, 2026.}
-\end{figure}
+Posteriormente, ocorre a etapa de gerenciamento dos Elementos, na qual o
+usuário pode realizar a importação por meio de arquivo, bem como efetuar
+edições manuais. Durante esse processo, o gerenciamento de Elementos permanece
+indisponível para outros usuários. A inserção de Elementos por um arquivo
+também permite ao usuário criar automaticamente os Escopos correspondentes.
 
-Posteriormente, ocorre a etapa de gerenciamento dos Elementos
-(\autoref{fig:fluxo_3}), na qual o usuário pode realizar a importação por meio
-de arquivo, bem como efetuar edições manuais. Durante esse processo, o
-gerenciamento de Elementos permanece indisponível para outros usuários. A
-inserção de Elementos por um arquivo também permite ao usuário criar
-automaticamente os Escopos mencionados.
+A seguir, pode ser feito o gerenciamento dos Escopos, uma entidade que
+representa um trecho do projeto e contém Elementos e configurações. Aqui o
+usuário também associa os materiais aos elementos e pode sobrescrever valores
+de cálculo para o contexto do Escopo. A fim de evitar conflitos de edição, o
+acesso a cada Escopo é restrito a um único usuário enquanto este estiver em
+uso.
 
-\begin{figure}[H]
-	\caption{\label{fig:fluxo_3}Diagrama de fluxo -- Gerenciamento dos Elementos}
-	\begin{center}
-		\includegraphics[scale=0.5]{fluxo_3.png}
-	\end{center}
-	\legend{Fonte: Elaborado pelos autores, 2026.}
-\end{figure}
+A etapa seguinte envolve o gerenciamento de configurações de precificação, como
+sobrescrever valores de cálculo para o contexto do Orçamento, e selecionar a
+opção de precificação que será utilizada para o cálculo do valor final.
 
-A seguir, o gerenciamento dos Escopos (\autoref{fig:fluxo_4}), uma entidade que
-representa um trecho do projeto e contém Elementos e configurações, pode ser
-feito. A fim de evitar conflitos de edição, o acesso a cada Escopo é restrito a
-um único usuário enquanto este estiver em uso.
+Por fim, ocorre a configuração do documento, etapa que permite ao usuário
+ajustar textos e formatação, inserir imagens e configurar a ordenação de
+elementos. Aqui o usuário também deve conferir manualmente as informações e
+valores finais calculados. Feito isso, a proposta pode ser exportada em formato
+PDF ou DOCX, finalizando o processo.
 
-\begin{figure}[H]
-	\caption{\label{fig:fluxo_4}Diagrama de fluxo -- Gerenciamento dos Escopos}
-	\begin{center}
-		\includegraphics[scale=0.38]{fluxo_4.png}
-	\end{center}
-	\legend{Fonte: Elaborado pelos autores, 2026.}
-\end{figure}
-
-A etapa seguinte envolve o gerenciamento de configurações, como a associação de
-materiais aos elementos, definição de preços de materiais e serviços e valores
-de metragem. Essas informações determinam o valor final da proposta e afetam
-como os cálculos são realizados.
-
-Por fim, ocorre a configuração do documento (\autoref{fig:fluxo_5}), permitindo
-ao usuário ajustar textos e formatação. Após isso, os valores finais são
-calculados e o documento é exportado.
-
-\begin{figure}[H]
-	\caption{\label{fig:fluxo_5}Diagrama de fluxo -- Finalização}
-	\begin{center}
-		\includegraphics[scale=0.23]{fluxo_5.png}
-	\end{center}
-	\legend{Fonte: Elaborado pelos autores, 2026.}
-\end{figure}
-
-Um elemento importante desse processo é a inclusão de um sistema de sobrescrita
-de valores para determinados escopos de cálculo. Configurações como a definição
-dos produtos, preços de materiais e taxas de consumo de matéria-prima para
+Um elemento importante desse processo é a inclusão do sistema de sobrescrita de
+valores para os escopos de cálculo. Configurações como a definição dos
+produtos, preços de materiais e taxas de consumo de matéria-prima para
 determinado tipo de elemento são realizadas fora de um orçamento e servem como
 fonte geral, porém todas podem ser sobrescritas tanto para um determinado
 Orçamento quanto para um Escopo naquele Orçamento.
@@ -549,7 +535,7 @@ descontos ou situações incomuns como falta de funcionários ou materiais. Essa
 flexibilidade é um dos fatores que tornam o sistema um substituto real ao
 processo anterior, garantindo que se adeque à empresa e não o contrário.
 
-\subsection{Tecnologias e Infraestrutura}
+\subsection{Tecnologias e Infraestrutura}\label{sec:tecnologias}
 O módulo de orçamento foi organizado em camadas para separar a interface, as
 regras de negócio e a persistência dos dados. Essa divisão evita que a tela
 dependa diretamente da forma como o banco está estruturado e facilita a
@@ -594,8 +580,8 @@ agregadas sobre múltiplas entidades. \glossary{Transação}{Operação indivis�
 	executada completamente ou revertida em sua totalidade (tudo ou nada),
 	garantindo a integridade dos dados.}
 
-Para atender às necessidades do sistema, foi definido o esquema apresentado na
-\autoref{fig:database} por meio de um diagrama MER (Modelo
+A \autoref{fig:database} apresenta o esquema definido para atender às
+necessidades do sistema, representado por meio de um diagrama MER (Modelo
 Entidade-Relacionamento) \cite{chen1976entity}.
 
 \begin{figure}[H]
@@ -688,13 +674,14 @@ sensíveis (criação, alteração, remoção de orçamentos e escopos) são reg
 em logs de auditoria, permitindo rastreamento completo de quem fez o quê e
 quando.
 
-\subsection{Interface do Usuário}
+\subsection{Resultados}
+\subsubsection{Interface do Usuário}\label{sec:interface}
 
 A interface do módulo foi concebida para organizar o processo de orçamentação
 em etapas sequenciais, reduzindo complexidade cognitiva e facilitando o
-trabalho do usuário. A tela inicial reúne as operações principais (pesquisa,
-filtros, criação) (\autoref{fig:quote_list}), enquanto a edição é realizada por
-meio de abas temáticas.
+trabalho do usuário. A \autoref{fig:quote_list} demonstra a tela inicial, que
+reúne as operações principais (pesquisa, filtros, criação), enquanto a edição é
+realizada por meio de abas temáticas.
 
 \begin{figure}[H]
 	\caption{\label{fig:quote_list}Interface -- Listagem de Orçamentos}
@@ -703,11 +690,11 @@ meio de abas temáticas.
 	\legend{Fonte: Elaborado pelos autores, 2026.}
 \end{figure}
 
-A aba Elementos permite o gerenciamento da lista de elementos do orçamento, com
-suporte a importação por arquivo e edição manual em lote
-(\autoref{fig:elements}). Sua interface inclui três seções para cada categoria
-de elemento onde os itens são mostrados em um formato de tabela, incluindo
-apenas os campos válidos para seu tipo.
+A \autoref{fig:elements} demonstra a aba Elementos, que permite o gerenciamento
+da lista de elementos do orçamento, com suporte a importação por arquivo e
+edição manual em lote. Sua interface inclui três seções para cada categoria de
+elemento onde os itens são mostrados em um formato de tabela, incluindo apenas
+os campos válidos para seu tipo.
 
 \begin{figure}[H]
 	\caption{\label{fig:elements}Interface -- Gerenciamento de Elementos}
@@ -728,12 +715,13 @@ principalmente para que não confunda a impossibilidade de editar os elementos
 com um erro no sistema e possua as informações necessárias para liberar seu
 acesso.
 
-A aba Escopos separa os projetos em partes menores, permitindo a delimitação de
-grupos de elementos que podem possuir configurações diferentes
-(\autoref{fig:scope_list}). Cada Escopo inclui um resumo de suas informações,
-incluindo tanto os itens simples, como nomes de responsáveis, quanto uma tabela
-que resume os elementos inclusos. Isso permite ao usuário extrair uma grande
-quantidade de informação sem a necessidade de analisar as minúcias do Escopo.
+A \autoref{fig:scope_list} demonstra a aba Escopos, que separa os projetos em
+partes menores, permitindo a delimitação de grupos de elementos que podem
+possuir configurações diferentes. Cada Escopo inclui um resumo de suas
+informações, incluindo tanto os itens simples, como nomes de responsáveis,
+quanto uma tabela que resume os elementos inclusos. Isso permite ao usuário
+extrair uma grande quantidade de informação sem a necessidade de analisar as
+minúcias do Escopo.
 
 \begin{figure}[H]
 	\caption{\label{fig:scope_list}Interface -- Aba de listagem de Escopos}
@@ -742,14 +730,9 @@ quantidade de informação sem a necessidade de analisar as minúcias do Escopo.
 	\legend{Fonte: Elaborado pelos autores, 2026.}
 \end{figure}
 
-A página de edição dos Escopos agrupa o gerenciamento dos elementos e a
-associação de parâmetros específicos (materiais, custos fixos, taxas de uso)
-(\autoref{fig:scope_internal_1}, \autoref{fig:scope_internal_2} e
-\autoref{fig:scope_internal_3}). A separação das configurações em múltiplas
-seções e tabelas limita a quantidade de informação com que o usuário precisa
-lidar em um determinado momento, facilitando o uso da aplicação. Além disso,
-utilizar termos e uma estrutura similares ao que estava presente nas antigas
-planilhas da empresa aumenta as chances de uma transição fácil.
+A \autoref{fig:scope_internal_1} demonstra a primeira parte da página de edição
+dos Escopos, que agrupa o gerenciamento dos elementos e a associação de
+parâmetros específicos (materiais, custos fixos, taxas de uso).
 
 \begin{figure}[H]
 	\caption{\label{fig:scope_internal_1}Interface -- Gerenciamento de Escopo 1}
@@ -758,12 +741,22 @@ planilhas da empresa aumenta as chances de uma transição fácil.
 	\legend{Fonte: Elaborado pelos autores, 2026.}
 \end{figure}
 
+A \autoref{fig:scope_internal_2} apresenta a continuação dessa página, cujas
+configurações são separadas em múltiplas seções e tabelas. Essa separação
+limita a quantidade de informação com que o usuário precisa lidar em um
+determinado momento, facilitando o uso da aplicação.
+
 \begin{figure}[H]
 	\caption{\label{fig:scope_internal_2}Interface -- Gerenciamento de Escopo 2}
 	\centering
 	\includegraphics[width=\textwidth]{scope_internal_2.png}
 	\legend{Fonte: Elaborado pelos autores, 2026.}
 \end{figure}
+
+A \autoref{fig:scope_internal_3} apresenta a parte final da página de edição.
+Em todas as suas partes, a utilização de termos e de uma estrutura similares
+aos que estavam presentes nas antigas planilhas da empresa aumenta as chances
+de uma transição fácil.
 
 \begin{figure}[H]
 	\caption{\label{fig:scope_internal_3}Interface -- Gerenciamento de Escopo 3}
@@ -775,11 +768,8 @@ planilhas da empresa aumenta as chances de uma transição fácil.
 A aba Valores consolida informações de preços, consumo de materiais e custos
 agregados, facilitando a visualização do impacto financeiro de cada decisão.
 
-Todas as configurações dos escopos são agregadas, mostrando os totais de
-metragem e custo para os materiais, como apresentado na \autoref{fig:values_1}.
-Esses valores são então somados, o resultado servindo ao usuário como uma
-referência para a definição do preço a ser cobrado na proposta, o que é
-configurado pelas opções de precificação mostradas na \autoref{fig:values_2}.
+A \autoref{fig:values_1} demonstra como todas as configurações dos escopos são
+agregadas, mostrando os totais de metragem e custo para os materiais.
 
 \begin{figure}[H]
 	\caption{\label{fig:values_1}Interface -- Valores -- Agregação de Materiais}
@@ -788,6 +778,11 @@ configurado pelas opções de precificação mostradas na \autoref{fig:values_2}
 	\legend{Fonte: Elaborado pelos autores, 2026.}
 \end{figure}
 
+Esses valores são então somados, o resultado servindo ao usuário como uma
+referência para a definição do preço a ser cobrado na proposta. A
+\autoref{fig:values_2} apresenta as opções de precificação, por meio das quais
+esse preço é configurado.
+
 \begin{figure}[H]
 	\caption{\label{fig:values_2}Interface -- Valores -- Opções de Precificação}
 	\centering
@@ -795,12 +790,10 @@ configurado pelas opções de precificação mostradas na \autoref{fig:values_2}
 	\legend{Fonte: Elaborado pelos autores, 2026.}
 \end{figure}
 
-As configurações e inserções de dados são consolidados na aba \textit{Preview},
+As configurações e inserções de dados são consolidadas na aba \textit{Preview},
 que apresenta uma visualização prévia do documento de proposta, permitindo
 ajuste de texto e formatação antes da geração final. O sistema também permite
-adicionar imagens e inclui automaticamente os totais de metragem de cada escopo
-e os preços finais. As figuras \autoref{fig:export_1}, \autoref{fig:export_2} e
-\autoref{fig:export_3} mostram alguns desses elementos.
+adicionar imagens. A \autoref{fig:export_1} demonstra o sumário do documento.
 
 \begin{figure}[H]
 	\caption{\label{fig:export_1}Interface -- Proposta -- Sumário do Documento}
@@ -809,12 +802,18 @@ e os preços finais. As figuras \autoref{fig:export_1}, \autoref{fig:export_2} e
 	\legend{Fonte: Elaborado pelos autores, 2026.}
 \end{figure}
 
+A \autoref{fig:export_2} apresenta as informações de um Escopo, nas quais o
+sistema inclui automaticamente o total de metragem.
+
 \begin{figure}[H]
 	\caption{\label{fig:export_2}Interface -- Proposta -- Informações de um Escopo}
 	\centering
 	\includegraphics[width=\textwidth]{export_2.png}
 	\legend{Fonte: Elaborado pelos autores, 2026.}
 \end{figure}
+
+A \autoref{fig:export_3} mostra, por fim, os valores da proposta, que incluem
+os preços finais.
 
 \begin{figure}[H]
 	\caption{\label{fig:export_3}Interface -- Proposta -- Valores da Proposta}
@@ -834,8 +833,6 @@ o estado do documento (bloqueios, alterações pendentes) e para permitir açõe
 atômicas e reversíveis quando necessário, buscando um produto que preza pela
 usabilidade, com o emprego, por exemplo, das dez heurísticas de Nielsen
 \cite{nielsen1994}.
-
-\subsection{Resultados}
 
 Todos os objetivos estabelecidos para o projeto foram atingidos e o trabalho
 realizado produziu uma base sólida e funcional para que a implementação de
@@ -861,7 +858,6 @@ desenvolvedor. \glossary{Frontend}{Camada de apresentação de um sistema,
 	usuário.} \glossary{Modal}{Elemento de interface que exibe conteúdo em
 	sobreposição à tela principal, bloqueando a interação com o restante da
 	aplicação até ser fechado ou confirmado.}
-
 \section{CONCLUSÃO}
 
 O módulo de orçamento foi concluído, atingindo os objetivos estabelecidos:
@@ -893,8 +889,12 @@ manutenibilidade do projeto.
 
 A resolução de problemas, tanto de implementação quanto decorrentes de mudanças
 solicitadas pelos usuários, é natural e deve ser conduzida de forma contínua.
-Embora o projeto esteja completo, trabalhos futuros poderão incluir a evolução
-das funcionalidades e a manutenção do sistema.
+Quanto a trabalhos futuros, o principal seria a modificação do sistema para
+permitir que seja utilizado por mais de uma empresa em um modelo
+\textit{multitenant}. \glossary{Multitenant}{Arquitetura de software que
+	permite que múltiplos clientes (\textit{tenants}) compartilhem a mesma
+	instância de um sistema, mantendo isolamento de dados e configurações entre
+	eles.}
 
 % ----------------------------------------------------------
 % ELEMENTOS PÓS-TEXTUAIS
