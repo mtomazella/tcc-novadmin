@@ -31,8 +31,13 @@
 % Pacotes de citações
 % ---
 \usepackage[brazilian,hyperpageref]{backref}	 % Paginas com as citações na bibl
-\usepackage[alf,abnt-emphasize=bf]{abntex2cite}	% Citações padrão ABNT
+\usepackage[alf,abnt-emphasize=bf,abnt-url-package=url]{abntex2cite}	% Citações padrão ABNT
+\def\UrlLeft{}
+\def\UrlRight{}
 \let\tt\ttfamily
+% A NBR 10520:2023 recomenda iniciais maiúsculas nos autores em citações
+% entre parênteses.
+\let\cite\citeonline
 
 % --- 
 % CONFIGURAÇÕES DE PACOTES
@@ -292,7 +297,7 @@ Orientador: Prof. Dr. Leonardo Grando.}
 \begin{resumo}[\textbf{RESUMO}]
 	\indent
 	Apresenta a implementação de um módulo de orçamento, construído com o objetivo de centralizar dados relevantes e automatizar etapas de cálculo e a geração do documento de proposta, reduzindo o esforço necessário e aumentando a consistência do processo.
-	O módulo foi desenvolvido com uma arquitetura em camadas, utilizando React para a interface web, Node.js com TypeScript e Express.js para a API REST, e PostgreSQL para o armazenamento de dados em um processo iterativo e incremental, com ênfase na validação contínua junto aos usuários finais e na entrega progressiva de funcionalidades.
+	O módulo foi desenvolvido com uma arquitetura em camadas, utilizando React para a interface web, Node.js com TypeScript e Express.js para uma interface de programação de aplicações (API) baseada em transferência de estado representacional (REST), e PostgreSQL para o armazenamento de dados em um processo iterativo e incremental, com ênfase na validação contínua junto aos usuários finais e na entrega progressiva de funcionalidades.
 	A interface organiza o processo de orçamentação em etapas sequenciais, facilitando o trabalho do usuário e garantindo flexibilidade para atender a situações reais do domínio.
 	O resultado é um sistema que espelha fielmente o fluxo de trabalho da empresa, incorporando suas nomenclaturas, etapas e regras de negócio específicas, eliminando a necessidade de adequações operacionais forçadas.
 
@@ -335,16 +340,19 @@ Orientador: Prof. Dr. Leonardo Grando.}
 % inserir lista de abreviaturas e siglas
 % ---
 % \begin{siglas}
-% 	\item[API] Interface de Programação de Aplicações
-% 	\item[CI/CD] Integração Contínua e Entrega Contínua
+% 	\item[API] Interface de Programação de Aplicações (\textit{Application Programming
+% 		Interface})
+% 	\item[CI/CD] Integração Contínua e Entrega Contínua (\textit{Continuous
+% 		Integration/Continuous Delivery})
 % 	\item[DOCX] Formato de arquivo do Microsoft Word baseado em XML
-% 	\item[ERP] Planejamento de Recursos Empresariais (Enterprise Resource Planning)
-% 	\item[HTML] Linguagem de Marcação de Hipertexto (HyperText Markup Language)
+% 	\item[ERP] Planejamento de Recursos Empresariais (\textit{Enterprise Resource
+% 		Planning})
+% 	\item[HTML] Linguagem de Marcação de Hipertexto (\textit{HyperText Markup Language})
 % 	\item[MER] Modelo Entidade-Relacionamento
-% 	\item[PDF] Formato de Documento Portátil (Portable Document Format)
-% 	\item[REST] Transferência de Estado Representacional (Representational State
-% 	Transfer)
-% 	\item[SQL] Linguagem de Consulta Estruturada (Structured Query Language)
+% 	\item[PDF] Formato de Documento Portátil (\textit{Portable Document Format})
+% 	\item[REST] Transferência de Estado Representacional (\textit{Representational State
+% 		Transfer})
+% 	\item[SQL] Linguagem de Consulta Estruturada (\textit{Structured Query Language})
 % 	\item[TCC] Trabalho de Conclusão de Curso
 % 	\item[UNISAL] Centro Universitário Salesiano de São Paulo
 % \end{siglas}
@@ -376,13 +384,13 @@ processo complexo que tem potenciais riscos significativos de inconsistência e
 retrabalho, podendo gerar danos à reputação e ao lucro da empresa em casos
 extremos.
 
-Esse trabalho descreve a extensão de um sistema previamente construído com a
+Este trabalho descreve a extensão de um sistema previamente construído com a
 implementação de um módulo especializado para geração de orçamentos e propostas
 de serviço. O objetivo geral é centralizar dados relevantes e automatizar
 etapas de cálculo e a geração do documento de proposta, reduzindo o esforço
 necessário e aumentando a consistência do processo.
 
-A interface segue o molde do sistema previamente implantado, utilizando uma
+A interface segue o padrão do sistema previamente implantado, utilizando uma
 plataforma web clara, com edição organizada em etapas sequenciais e suporte a
 colaboração controlada quando aplicável.
 
@@ -428,8 +436,126 @@ a automação dos processos para reduzir a possibilidade de erro humano e
 aumentar a eficiência do sistema, e permitir que múltiplos usuários editem
 partes de um registro simultaneamente.
 
+\section{FUNDAMENTAÇÃO TEÓRICA}
+
+Esta seção apresenta os conceitos que orientam o desenvolvimento do sistema.
+Inicialmente, são discutidas as características dos sistemas integrados de
+gestão empresarial; em seguida, a modularização é relacionada à evolução de
+sistemas corporativos; por fim, são apresentadas algumas soluções ERP
+disponíveis no mercado, com o objetivo de delimitar a contribuição do NOVADMIN
+em relação a essas alternativas.
+
+\subsection{Sistemas integrados de gestão empresarial}
+
+Os sistemas integrados de gestão empresarial, também denominados sistemas de
+planejamento de recursos empresariais (ERP, do inglês \textit{Enterprise
+	Resource Planning}), são sistemas de informação destinados a integrar dados e
+processos de diferentes áreas de uma organização. Em vez de manter aplicações
+isoladas para necessidades como finanças, vendas, compras, estoque e produção,
+o ERP organiza essas funções em uma base informacional integrada, permitindo
+que os dados registrados em uma área sejam utilizados pelos demais processos.
+Essa integração reduz a duplicidade de informações e favorece a padronização
+dos fluxos, embora também exija decisões de implantação, parametrização e
+adequação dos processos organizacionais \cite{davenport1998,estevespastor1999}.
+\glossary{ERP}{Sistema integrado de gestão empresarial que reúne dados e
+	processos de diferentes áreas da organização em uma plataforma comum.}
+
+Na perspectiva de Davenport (1998), os sistemas empresariais combinam uma base
+de dados integrada com módulos que apoiam os principais processos da
+organização \cite{davenport1998}. A integração, contudo, não significa que
+todas as empresas devam operar com o mesmo conjunto de funções: a seleção dos
+módulos e a configuração das regras precisam considerar o porte, o setor e as
+particularidades da organização. Para Esteves e Pastor (1999), a análise de um
+ERP deve considerar, além da tecnologia, as dimensões organizacional e de
+produto, pois sua adoção altera responsabilidades, procedimentos e a circulação
+das informações \cite{estevespastor1999}.
+
+No contexto deste trabalho, o NOVADMIN é compreendido como um sistema
+corporativo ampliado por um módulo de orçamentação. O módulo utiliza
+informações já definidas em outros contextos, como clientes, obras e produtos,
+e expande seu uso com a introdução de entidades específicas, como orçamentos,
+escopos, fornecedores e materiais. Por meio da integração com o sistema do
+cliente, o módulo amplia as funcionalidades existentes sem se restringir a uma
+solução genérica, adequando-se a um processo já estabelecido que anteriormente
+dependia de planilhas e procedimentos manuais.
+
+\subsection{Modularização e evolução de sistemas}
+
+Modularização é a decomposição de um sistema em unidades com responsabilidades
+definidas e interfaces de comunicação relativamente estáveis. Parnas (1972)
+propõe que os módulos sejam organizados em torno de decisões que podem variar,
+ocultando detalhes de implementação e limitando o impacto de mudanças. Em
+software corporativo, esse princípio permite que uma funcionalidade seja
+desenvolvida, testada e evoluída sem exigir alterações indiscriminadas em todas
+as demais partes do sistema \cite{parnas1972}.
+\glossary{Modularização}{Decomposição de um sistema em módulos com
+	responsabilidades definidas e interfaces de comunicação estabelecidas.}
+
+Baldwin e Clark (2000) relacionam a modularidade à possibilidade de combinar
+componentes e realizar mudanças em uma parte do produto mantendo as demais
+inalteradas, desde que as interfaces sejam preservadas \cite{baldwinclark2000}.
+Essa propriedade não elimina a necessidade de integração, já que dados
+compartilhados, regras de negócio, permissões e transações precisam ser
+definidos explicitamente. Portanto, a modularização produz benefícios quando há
+coesão dentro dos módulos e baixo acoplamento entre eles, e não apenas quando o
+código é dividido em diretórios ou componentes. \glossary{Coesão}{Grau em que
+	as responsabilidades de um módulo estão relacionadas entre si e contribuem para
+	uma finalidade comum.} \glossary{Acoplamento}{Grau de dependência entre módulos
+	ou componentes de um sistema.}
+
+No contexto do projeto, o sistema de orçamentação é implementado como um módulo
+separado do restante da plataforma. Suas funcionalidades interagem com os
+demais componentes por meio de interfaces definidas, o que reduz o acoplamento
+entre as partes do sistema. Essa abordagem limita a propagação de mudanças e
+erros, além de facilitar o desenvolvimento, a manutenção e os testes da
+aplicação.
+
+\subsection{Soluções ERP de mercado}
+
+Para contextualizar a solução desenvolvida, foi realizada uma análise
+comparativa de produtos ERP de diferentes segmentos, incluindo soluções
+voltadas a pequenas e médias empresas. As informações foram obtidas nas páginas
+oficiais dos fornecedores, consultadas em 7 de novembro de 2026, pois
+características comerciais, formas de hospedagem e funcionalidades podem ser
+alteradas. A comparação a seguir descreve as características divulgadas pelos
+próprios fornecedores e não constitui um teste independente de desempenho ou
+uma afirmação de equivalência funcional entre os produtos.
+
+Entre as soluções analisadas, o SAP Business One integra áreas como finanças,
+vendas, logística, CRM e análise de dados, oferecendo implantação local ou em
+nuvem \cite{sapbusinessone}. O TOTVS Protheus é apresentado como uma plataforma
+de gestão para diferentes portes e segmentos, com recursos que incluem
+backoffice, financeiro, fiscal, estoque e outras extensões
+\cite{totvsprotheus}. Esses exemplos representam suítes abrangentes, nas quais
+a empresa pode contratar módulos preexistentes e configurá-los de acordo com
+suas necessidades. \glossary{CRM}{Gestão do relacionamento com clientes
+	(\textit{Customer Relationship Management}), conjunto de processos e recursos
+	destinados a organizar informações e interações com clientes.}
+
+No segmento de construção e incorporação, a Senior divulga uma solução ERP
+específica para construtoras e incorporadoras, com recursos relacionados à
+gestão de obras, orçamento, cronograma, contratos e faturamento
+\cite{seniorconstrucao}. Para o setor industrial, o Nomus ERP Industrial é
+apresentado como uma solução de gestão para pequenas e médias indústrias, com
+tecnologia web em nuvem e possibilidade de instalação em servidor local
+\cite{nomuserp}. A seleção desses quatro produtos prioriza as soluções para as
+quais foram encontradas informações oficiais mais detalhadas sobre
+público-alvo, abrangência funcional e forma de implantação. Ainda assim, eles
+representam alternativas comerciais que reúnem diversos domínios em uma
+plataforma de gestão.
+
+A comparação ajuda a delimitar a contribuição do NOVADMIN. As soluções
+apresentadas oferecem amplitude funcional, integração e diferentes modelos de
+implantação, mas sua adequação às particularidades de cada cliente pode exigir
+parametrização, consultoria ou customizações. O projeto deste trabalho adota
+outra prioridade: estender um sistema já utilizado pela organização com um
+módulo de orçamento aderente ao fluxo real de fabricação de moldes de concreto.
+Assim, a proposta não é competir com essas suítes em abrangência, e sim obter
+aderência ao domínio, rastreabilidade das versões e automação das regras
+específicas da empresa para orçamentos.
+
 \section{DESENVOLVIMENTO}
-Essa seção descreve a metodologia adotada para a implementação do projeto, o
+Esta seção descreve a metodologia adotada para a implementação do projeto, o
 fluxo de trabalho do usuário quando visto isolado da tecnologia e detalhes
 sobre as decisões técnicas arquiteturais e de infraestrutura que foram tomadas
 para atender aos requisitos do sistema.
@@ -459,7 +585,7 @@ organizado em etapas complementares. A fase inicial de \textit{design} teve
 duração de um mês, seguida por cinco meses de desenvolvimento do
 \textit{backend} e quatro meses de desenvolvimento do \textit{frontend}. O
 trabalho escrito foi produzido em paralelo às etapas de desenvolvimento,
-durante três meses. No dois meses finais, foram realizados simultaneamente os
+durante três meses. Nos dois meses finais, foram realizados simultaneamente os
 testes e correções e o polimento do documento.
 
 \begin{figure}[H]
@@ -477,7 +603,7 @@ maneira isolada, ou seja, sem considerar detalhes de implementação, tecnologia
 empregadas ou a aparência das telas. Esses aspectos são tratados nas seções
 seguintes.
 
-A \autoref{fig:fluxo} demonstra o fluxo completo, desde a inserção das
+A \autoref{fig:fluxo} apresenta o fluxo completo, desde a inserção das
 entidades que compõem o Orçamento até a exportação do documento da proposta.
 
 \begin{figure}[H]
@@ -544,18 +670,18 @@ manutenção quando alguma parte do processo precisa ser ajustada.
 A camada de apresentação consiste em uma interface web desenvolvida em React
 \cite{react}, escolha realizada pela necessidade de uma navegação responsiva
 entre listas, formulários e abas de edição, para a qual o React oferece
-abstrações adequadas. Essa tecnologia também já era utilizada para o sistema já
+abstrações adequadas. Essa tecnologia também já era utilizada no sistema
 implantado, permitindo uma integração simples.
 
-A camada de lógica de negócios consiste em uma API (Application Programming
-Interface) REST (Representational State Transfer) \cite{fielding2000}
-implementada em Node.js \cite{nodejs} com TypeScript \cite{typescript} e
-Express.js \cite{expressjs}. A API concentra as regras de domínio do módulo e
-expõe operações de criação, leitura, atualização, remoção e bloqueio de
-registros. A separação entre camadas foi adotada para reduzir acoplamento,
-facilitar evolução independente e centralizar regras de negócio em um único
-ponto de controle. \glossary{API}{Application Programming Interface. Interface
-	que permite a comunicação entre dois sistemas de software.}
+A camada de lógica de negócios consiste em uma interface de programação de
+aplicações (API) baseada em transferência de estado representacional (REST)
+\cite{fielding2000} implementada em Node.js \cite{nodejs} com TypeScript
+\cite{typescript} e Express.js \cite{expressjs}. A API concentra as regras de
+domínio do módulo e expõe operações de criação, leitura, atualização, remoção e
+bloqueio de registros. A separação entre camadas foi adotada para reduzir
+acoplamento, facilitar evolução independente e centralizar regras de negócio em
+um único ponto de controle. \glossary{API}{Application Programming Interface.
+	Interface que permite a comunicação entre dois sistemas de software.}
 \glossary{REST}{Representational State Transfer. Estilo arquitetural para APIs
 	que define restrições sobre como os serviços devem se comunicar via HTTP.}
 \glossary{Node.js}{Ambiente de execução JavaScript no lado do servidor,
@@ -581,8 +707,8 @@ agregadas sobre múltiplas entidades. \glossary{Transação}{Operação indivis�
 	garantindo a integridade dos dados.}
 
 A \autoref{fig:database} apresenta o esquema definido para atender às
-necessidades do sistema, representado por meio de um diagrama MER (Modelo
-Entidade-Relacionamento) \cite{chen1976entity}.
+necessidades do sistema, representado por meio de um diagrama de modelo
+entidade-relacionamento (MER) \cite{chen1976entity}.
 
 \begin{figure}[H]
 	\caption{\label{fig:database}Diagrama MER do banco de dados}
@@ -658,6 +784,9 @@ redirecionado para o ambiente atualizado, permitindo uma recuperação rápida a
 manter a outra instância intacta caso algum problema ocorra. Com imagens Docker
 e orquestração, esse padrão é de simples implementação e combina bem com
 práticas de CI/CD para \textit{deploys} controlados.
+\glossary{Blue/Green}{Estratégia de implantação que mantém dois ambientes de
+	execução, alternando o tráfego entre o ambiente ativo e o ambiente que recebe a
+	nova versão.}
 
 A infraestrutura também prevê centralização de logs, monitoramento básico e
 políticas de \textit{backup/restore} para o PostgreSQL em múltiplos locais. A
@@ -674,12 +803,12 @@ sensíveis (criação, alteração, remoção de orçamentos e escopos) são reg
 em logs de auditoria, permitindo rastreamento completo de quem fez o quê e
 quando.
 
-\subsection{Resultados}
-\subsubsection{Interface do Usuário}\label{sec:interface}
+\section{RESULTADOS}
+\subsection{Interface do Usuário}\label{sec:interface}
 
 A interface do módulo foi concebida para organizar o processo de orçamentação
 em etapas sequenciais, reduzindo complexidade cognitiva e facilitando o
-trabalho do usuário. A \autoref{fig:quote_list} demonstra a tela inicial, que
+trabalho do usuário. A \autoref{fig:quote_list} apresenta a tela inicial, que
 reúne as operações principais (pesquisa, filtros, criação), enquanto a edição é
 realizada por meio de abas temáticas.
 
@@ -690,11 +819,11 @@ realizada por meio de abas temáticas.
 	\legend{Fonte: Elaborado pelos autores, 2026.}
 \end{figure}
 
-A \autoref{fig:elements} demonstra a aba Elementos, que permite o gerenciamento
+A \autoref{fig:elements} apresenta a aba Elementos, que permite o gerenciamento
 da lista de elementos do orçamento, com suporte a importação por arquivo e
 edição manual em lote. Sua interface inclui três seções para cada categoria de
-elemento onde os itens são mostrados em um formato de tabela, incluindo apenas
-os campos válidos para seu tipo.
+elemento, na qual os itens são mostrados em formato de tabela, incluindo apenas
+os campos válidos para cada tipo.
 
 \begin{figure}[H]
 	\caption{\label{fig:elements}Interface -- Gerenciamento de Elementos}
@@ -705,23 +834,22 @@ os campos válidos para seu tipo.
 
 A utilização de seções colapsáveis permite ao usuário ver apenas o que precisa,
 evitando a necessidade de rolar a tela por grandes distâncias, principalmente
-quando essa seção pode incluir centenas de itens em cada categoria. Esse
-elemento de \textit{design} é muito utilizado na criação desse sistema.
+quando a seção inclui centenas de itens em cada categoria. Esse recurso de
+\textit{design} é utilizado na organização do sistema.
 
 O botão “Editar Elementos” inclui uma explicação sobre o bloqueio de edição da
-seção para outros usuários durante o uso. Essa inclusão é importante para
-garantir que o usuário entenda a necessidade de limitar o tempo de uso e
-principalmente para que não confunda a impossibilidade de editar os elementos
-com um erro no sistema e possua as informações necessárias para liberar seu
-acesso.
+seção para outros usuários durante o uso. Essa informação é importante para que
+o usuário compreenda a necessidade de limitar o tempo de uso e não confunda a
+impossibilidade de editar os elementos com um erro no sistema, além de dispor
+das informações necessárias para liberar o acesso.
 
-A \autoref{fig:scope_list} demonstra a aba Escopos, que separa os projetos em
+A \autoref{fig:scope_list} apresenta a aba Escopos, que separa os projetos em
 partes menores, permitindo a delimitação de grupos de elementos que podem
 possuir configurações diferentes. Cada Escopo inclui um resumo de suas
-informações, incluindo tanto os itens simples, como nomes de responsáveis,
-quanto uma tabela que resume os elementos inclusos. Isso permite ao usuário
-extrair uma grande quantidade de informação sem a necessidade de analisar as
-minúcias do Escopo.
+informações, incluindo tanto itens simples, como nomes de responsáveis, quanto
+uma tabela que resume os elementos incluídos. Isso permite ao usuário extrair
+uma grande quantidade de informação sem a necessidade de analisar as minúcias
+do Escopo.
 
 \begin{figure}[H]
 	\caption{\label{fig:scope_list}Interface -- Aba de listagem de Escopos}
@@ -730,7 +858,7 @@ minúcias do Escopo.
 	\legend{Fonte: Elaborado pelos autores, 2026.}
 \end{figure}
 
-A \autoref{fig:scope_internal_1} demonstra a primeira parte da página de edição
+A \autoref{fig:scope_internal_1} apresenta a primeira parte da página de edição
 dos Escopos, que agrupa o gerenciamento dos elementos e a associação de
 parâmetros específicos (materiais, custos fixos, taxas de uso).
 
@@ -754,9 +882,8 @@ determinado momento, facilitando o uso da aplicação.
 \end{figure}
 
 A \autoref{fig:scope_internal_3} apresenta a parte final da página de edição.
-Em todas as suas partes, a utilização de termos e de uma estrutura similares
-aos que estavam presentes nas antigas planilhas da empresa aumenta as chances
-de uma transição fácil.
+Em todas as suas partes, a adoção da nomenclatura e da estrutura das antigas
+planilhas da empresa aumenta as chances de uma transição simplificada.
 
 \begin{figure}[H]
 	\caption{\label{fig:scope_internal_3}Interface -- Gerenciamento de Escopo 3}
@@ -768,7 +895,7 @@ de uma transição fácil.
 A aba Valores consolida informações de preços, consumo de materiais e custos
 agregados, facilitando a visualização do impacto financeiro de cada decisão.
 
-A \autoref{fig:values_1} demonstra como todas as configurações dos escopos são
+A \autoref{fig:values_1} apresenta como todas as configurações dos escopos são
 agregadas, mostrando os totais de metragem e custo para os materiais.
 
 \begin{figure}[H]
@@ -778,10 +905,10 @@ agregadas, mostrando os totais de metragem e custo para os materiais.
 	\legend{Fonte: Elaborado pelos autores, 2026.}
 \end{figure}
 
-Esses valores são então somados, o resultado servindo ao usuário como uma
-referência para a definição do preço a ser cobrado na proposta. A
-\autoref{fig:values_2} apresenta as opções de precificação, por meio das quais
-esse preço é configurado.
+Esses valores são somados, e o resultado serve ao usuário como referência para
+a definição do preço a ser cobrado na proposta. A \autoref{fig:values_2}
+apresenta as opções de precificação, por meio das quais esse preço é
+configurado.
 
 \begin{figure}[H]
 	\caption{\label{fig:values_2}Interface -- Valores -- Opções de Precificação}
@@ -792,8 +919,8 @@ esse preço é configurado.
 
 As configurações e inserções de dados são consolidadas na aba \textit{Preview},
 que apresenta uma visualização prévia do documento de proposta, permitindo
-ajuste de texto e formatação antes da geração final. O sistema também permite
-adicionar imagens. A \autoref{fig:export_1} demonstra o sumário do documento.
+ajustes de texto e formatação antes da geração final. O sistema também permite
+adicionar imagens. A \autoref{fig:export_1} apresenta o sumário do documento.
 
 \begin{figure}[H]
 	\caption{\label{fig:export_1}Interface -- Proposta -- Sumário do Documento}
@@ -823,10 +950,9 @@ os preços finais.
 \end{figure}
 
 Após a modificação da proposta, as opções de exportação do documento por PDF e
-DOCX ficam disponíveis. A primeira realiza a conversão do HTML para o formato
-diretamente e a segunda conta com um sistema separado que reconstrói os
-elementos no formato de arquivo DOCX, já que uma conversão direta não é
-possível.
+DOCX ficam disponíveis. A primeira converte o HTML diretamente para o formato
+PDF, e a segunda conta com um sistema separado que reconstrói os elementos no
+formato de arquivo DOCX, já que uma conversão direta não é possível.
 
 Cada etapa do fluxo foi desenhada para fornecer sinais claros ao usuário sobre
 o estado do documento (bloqueios, alterações pendentes) e para permitir ações
